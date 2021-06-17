@@ -21,6 +21,11 @@ const languages = [
     country_code: 'sa',
     dir: 'rtl'
   },
+  {
+    code: 'ja',
+    name: '日本語',
+    country_code: 'jp',
+  },
 ]
 
 const GlobeIcon = ({ width = 24, height = 24 }) => (

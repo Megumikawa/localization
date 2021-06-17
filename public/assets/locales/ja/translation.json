@@ -1,0 +1,6 @@
+{
+  "app_title": "タイトル",
+  "language": "言語",
+  "welcome_message": "ようこそ",
+  "days_since_release": "ビデオがアップロードされてから {{number_of_days}} 日"
+}
