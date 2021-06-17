@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 import i18next from 'i18next';
+import cookies from 'js-cookie'
 
 
 const languages = [
@@ -17,7 +18,8 @@ const languages = [
   {
     code: 'ar',
     name: 'العربية',
-    country_code: 'sa'
+    country_code: 'sa',
+    dir: 'rtl'
   },
 ]
 
@@ -29,11 +31,19 @@ const GlobeIcon = ({ width = 24, height = 24 }) => (
 
 
 function App() {
+  const currentLanguageCode = cookies.get('i18next') || 'en'
+  const currentLanguage = languages.find(l => l.code === currentLanguageCode)
+
   const { t } = useTranslation()
 
   const releaseDate = new Date('2021-06-17')
   const timeDifference = new Date() - releaseDate
   const number_of_days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+
+  useEffect(() => {
+    document.body.dir = currentLanguage.dir || 'ltr'
+    document.title = t('app_title')
+  },[currentLanguage], t)
 
   return (
     <div className="container">
@@ -43,13 +53,20 @@ function App() {
         <GlobeIcon />
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li>
+          <span className="dropdown-item-text">{t('language')}</span>
+        </li>
           {languages.map(({ code, name, country_code}) => (
           <li key={country_code}>
             <button 
               className="dropdown-item" 
               onClick={() => i18next.changeLanguage(code)}
+              disable={code === currentLanguageCode}
             >
-            <span className={`flag-icon flag-icon-${country_code} mx-2`}></span>
+            <span 
+              className={`flag-icon flag-icon-${country_code} mx-2`}
+              style={{ opacity: code === currentLanguageCode ? 0.5 : 1 }}
+            ></span>
               {name}
             </button>
           </li>
